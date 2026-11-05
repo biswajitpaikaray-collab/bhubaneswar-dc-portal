@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhubaneswar DC - Shadowfax Unified Enterprise Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            min-height: 100vh;
+        }
+        .clay-card {
+            background: linear-gradient(145deg, #131b2e, #0f1626);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 8px 8px 16px #070a11, -8px -8px 16px #131b2d;
+            border-radius: 20px;
+        }
+        .clay-input {
+            background: #0b0f19;
+            box-shadow: inset 4px 4px 8px #06080e, inset -4px -4px 8px #101624;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            color: #ffffff;
+        }
+        .clay-btn-primary {
+            background: linear-gradient(135deg, #06b6d4, #0d9488);
+            box-shadow: 4px 4px 10px rgba(6, 182, 212, 0.2), -4px -4px 10px rgba(13, 148, 136, 0.1);
+            border-radius: 12px;
+            font-weight: 700;
+        }
+        .clay-btn-primary:active {
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        .clay-badge {
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.4);
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between p-4 md:p-8 relative overflow-x-hidden">
+
+    <!-- Top Dynamic Greeting Banner -->
+    <header class="w-full max-w-6xl mx-auto mb-6 flex justify-between items-center clay-card p-4 md:p-6">
+        <div class="flex items-center space-x-4">
+            <div id="greetingIcon" class="text-3xl text-amber-400"><i class="fa-solid fa-sun"></i></div>
+            <div>
+                <h1 id="greetingText" class="text-xl md:text-2xl font-extrabold text-cyan-400">GOOD DAY</h1>
+                <p class="text-xs md:text-sm text-gray-400">Bhubaneswar DC - Shadowfax Unified Enterprise Portal</p>
+            </div>
+        </div>
+        <div id="userInfo" class="hidden flex items-center space-x-3">
+            <span id="userBadge" class="px-3 py-1 text-xs font-bold clay-badge bg-cyan-950 text-cyan-400">ROLE</span>
+            <button onclick="handleLogout()" class="px-3 py-1.5 text-xs font-bold text-red-400 hover:text-red-300 clay-card"><i class="fa-solid fa-right-from-bracket mr-1"></i> Logout</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-6xl mx-auto flex-grow flex items-center justify-center">
+
+        <!-- Login Form -->
+        <div id="loginSection" class="w-full max-w-md clay-card p-8">
+            <div class="text-center mb-6">
+                <i class="fa-solid fa-shield-halved text-4xl text-cyan-400 mb-2"></i>
+                <h2 class="text-2xl font-bold">Portal Sign In</h2>
+                <p class="text-xs text-gray-400 mt-1">Authorized Facility Access Only</p>
+            </div>
+
+            <div id="loginAlert" class="hidden mb-4 p-3 text-xs rounded-lg bg-red-900/50 text-red-200 border border-red-500/30"></div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold mb-1 text-gray-300">USER ID / EMP CODE</label>
+                    <input type="text" id="loginUsername" required placeholder="e.g. admin or EMP-8042" class="w-full p-3 text-sm clay-input focus:outline-none focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1 text-gray-300">PASSWORD</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full p-3 text-sm clay-input focus:outline-none focus:border-cyan-500">
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                    <label class="flex items-center text-gray-400 cursor-pointer">
+                        <input type="checkbox" class="mr-2 rounded bg-gray-900 border-gray-700"> Remember ID
+                    </label>
+                    <a href="#" onclick="alert('Please contact HR/IT Admin to reset your portal password.')" class="text-cyan-400 hover:underline">Forgot?</a>
+                </div>
+                <button type="submit" class="w-full py-3 clay-btn-primary text-gray-900 font-extrabold tracking-wider uppercase text-sm mt-2">Sign In</button>
+            </form>
+
+            <div class="mt-6 text-center text-xs text-gray-400">
+                Need access? <a href="#" onclick="toggleRegisterModal(true)" class="text-cyan-400 font-bold hover:underline">Register New Account</a>
+            </div>
+        </div>
+
+        <!-- Manager Workspace -->
+        <div id="managerPortal" class="hidden w-full space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="clay-card p-5">
+                    <p class="text-xs text-gray-400 font-semibold">Total Staff Present</p>
+                    <h3 class="text-2xl font-black text-white mt-1">42 / 48</h3>
+                    <span class="text-xs text-emerald-400 font-bold"><i class="fa-solid fa-circle-check"></i> 87.5% Attendance</span>
+                </div>
+                <div class="clay-card p-5">
+                    <p class="text-xs text-gray-400 font-semibold">Pending Leaves</p>
+                    <h3 class="text-2xl font-black text-amber-400 mt-1">3 Requests</h3>
+                    <span class="text-xs text-gray-400">Requires Review</span>
+                </div>
+                <div class="clay-card p-5">
+                    <p class="text-xs text-gray-400 font-semibold">Pending User Registrations</p>
+                    <h3 id="mgrPendingCount" class="text-2xl font-black text-cyan-400 mt-1">0 Requests</h3>
+                    <span class="text-xs text-gray-400">Manager Authorization</span>
+                </div>
+                <div class="clay-card p-5">
+                    <p class="text-xs text-gray-400 font-semibold">Gate Movements</p>
+                    <h3 class="text-2xl font-black text-cyan-400 mt-1">19 Vehicles</h3>
+                    <span class="text-xs text-gray-400">Logged Today</span>
+                </div>
+            </div>
+
+            <!-- Pending Approvals Table -->
+            <div class="clay-card p-6">
+                <h3 class="text-lg font-bold text-cyan-400 mb-4 flex items-center">
+                    <i class="fa-solid fa-user-clock mr-2"></i> Pending New Account Approvals
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="text-gray-400 border-b border-gray-800">
+                            <tr>
+                                <th class="p-3">FULL NAME</th>
+                                <th class="p-3">EMPLOYEE ID</th>
+                                <th class="p-3">ROLE</th>
+                                <th class="p-3 text-right">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pendingUsersTable">
+                            <tr>
+                                <td colspan="4" class="p-4 text-center text-gray-500">No pending approvals.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Employee Workspace -->
+        <div id="employeePortal" class="hidden w-full max-w-2xl clay-card p-8">
+            <h3 class="text-xl font-bold text-cyan-400 mb-6 flex items-center"><i class="fa-solid fa-user-check mr-2"></i> Employee Self-Service</h3>
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <button onclick="alert('Clock In Registered!')" class="p-4 clay-btn-primary text-gray-900 font-bold text-center">
+                    <i class="fa-solid fa-clock text-xl block mb-1"></i> CLOCK IN
+                </button>
+                <button onclick="alert('Clock Out Registered!')" class="p-4 clay-card text-gray-300 font-bold text-center hover:bg-gray-800">
+                    <i class="fa-solid fa-right-from-bracket text-xl block mb-1"></i> CLOCK OUT
+                </button>
+            </div>
+            <div class="border-t border-gray-800 pt-6">
+                <h4 class="text-sm font-bold mb-3">Apply for Leave</h4>
+                <form onsubmit="event.preventDefault(); alert('Leave Request Submitted to Manager!');" class="space-y-3">
+                    <input type="text" placeholder="Reason for leave" required class="w-full p-3 text-xs clay-input">
+                    <button type="submit" class="w-full py-2.5 clay-card text-cyan-400 font-bold text-xs hover:bg-gray-800">Submit Request</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Security Workspace -->
+        <div id="securityPortal" class="hidden w-full max-w-2xl clay-card p-8">
+            <h3 class="text-xl font-bold text-cyan-400 mb-6 flex items-center"><i class="fa-solid fa-truck-ramp-box mr-2"></i> Security Gate Operations</h3>
+            <form onsubmit="event.preventDefault(); alert('Gate Entry Logged Successfully!');" class="space-y-4">
+                <div>
+                    <label class="block text-xs mb-1 text-gray-400">VEHICLE NUMBER</label>
+                    <input type="text" placeholder="e.g. OR-02-AX-9912" required class="w-full p-3 text-xs clay-input">
+                </div>
+                <div>
+                    <label class="block text-xs mb-1 text-gray-400">DRIVER NAME / PHONE</label>
+                    <input type="text" placeholder="Driver Full Name" required class="w-full p-3 text-xs clay-input">
+                </div>
+                <button type="submit" class="w-full py-3 clay-btn-primary text-gray-900 font-bold text-xs uppercase">Log Gate Entry</button>
+            </form>
+        </div>
+
+    </main>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="clay-card w-full max-w-md p-6 relative">
+            <button onclick="toggleRegisterModal(false)" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 class="text-lg font-bold text-cyan-400 mb-4">Request New Account</h3>
+            <form onsubmit="handleRegister(event)" class="space-y-3">
+                <input type="text" id="regName" placeholder="Full Name" required class="w-full p-2.5 text-xs clay-input">
+                <input type="text" id="regEmpId" placeholder="Employee ID (e.g. EMP-9001)" required class="w-full p-2.5 text-xs clay-input">
+                <select id="regRole" class="w-full p-2.5 text-xs clay-input text-gray-300">
+                    <option value="EMPLOYEE">Employee</option>
+                    <option value="SECURITY">Security Guard</option>
+                </select>
+                <input type="password" id="regPass" placeholder="Desired Password" required class="w-full p-2.5 text-xs clay-input">
+                <button type="submit" class="w-full py-2.5 clay-btn-primary text-gray-900 font-bold text-xs uppercase mt-2">Submit for Approval</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Store users locally in browser memory for persistent demo approval testing
+        let registeredUsers = JSON.parse(localStorage.getItem('portal_users')) || [];
+
+        function setGreeting() {
+            const hour = new Date().getHours();
+            const textEl = document.getElementById('greetingText');
+            const iconEl = document.getElementById('greetingIcon');
+
+            if (hour < 12) {
+                textEl.innerText = 'GOOD MORNING';
+                iconEl.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            } else if (hour < 17) {
+                textEl.innerText = 'GOOD AFTERNOON';
+                iconEl.innerHTML = '<i class="fa-solid fa-cloud-sun"></i>';
+            } else {
+                textEl.innerText = 'GOOD EVENING';
+                iconEl.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            }
+        }
+        setGreeting();
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('loginUsername').value.trim();
+            const pass = document.getElementById('loginPassword').value.trim();
+            const alertEl = document.getElementById('loginAlert');
+
+            alertEl.classList.add('hidden');
+
+            // Built-in Static Admin/Demo Accounts
+            if (user.toLowerCase() === 'admin' && pass === 'admin123') {
+                showWorkspace('MANAGER', 'ADMIN');
+                return;
+            } else if (user.toLowerCase() === 'security' && pass === 'sec123') {
+                showWorkspace('SECURITY', 'SECURITY GUARD');
+                return;
+            } else if (user === 'EMP-8042' && pass === 'emp123') {
+                showWorkspace('EMPLOYEE', 'EMP-8042');
+                return;
+            }
+
+            // Check Registered Users
+            const found = registeredUsers.find(u => u.empId === user && u.pass === pass);
+            if (found) {
+                if (found.status === 'PENDING') {
+                    alertEl.innerText = "Account pending approval. Please contact your manager.";
+                    alertEl.classList.remove('hidden');
+                } else if (found.status === 'APPROVED') {
+                    showWorkspace(found.role, found.empId);
+                } else {
+                    alertEl.innerText = "Account request rejected.";
+                    alertEl.classList.remove('hidden');
+                }
+            } else {
+                alertEl.innerText = "Invalid credentials or user ID not found.";
+                alertEl.classList.remove('hidden');
+            }
+        }
+
+        function showWorkspace(role, label) {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('userInfo').classList.remove('hidden');
+            document.getElementById('userBadge').innerText = label;
+
+            document.getElementById('managerPortal').classList.add('hidden');
+            document.getElementById('employeePortal').classList.add('hidden');
+            document.getElementById('securityPortal').classList.add('hidden');
+
+            if (role === 'MANAGER') {
+                document.getElementById('managerPortal').classList.remove('hidden');
+                renderPendingTable();
+            } else if (role === 'EMPLOYEE') {
+                document.getElementById('employeePortal').classList.remove('hidden');
+            } else if (role === 'SECURITY') {
+                document.getElementById('securityPortal').classList.remove('hidden');
+            }
+        }
+
+        function handleLogout() {
+            document.getElementById('userInfo').classList.add('hidden');
+            document.getElementById('managerPortal').classList.add('hidden');
+            document.getElementById('employeePortal').classList.add('hidden');
+            document.getElementById('securityPortal').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        function toggleRegisterModal(show) {
+            document.getElementById('registerModal').classList.toggle('hidden', !show);
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const newUser = {
+                name: document.getElementById('regName').value,
+                empId: document.getElementById('regEmpId').value,
+                role: document.getElementById('regRole').value,
+                pass: document.getElementById('regPass').value,
+                status: 'PENDING'
+            };
+
+            registeredUsers.push(newUser);
+            localStorage.setItem('portal_users', JSON.stringify(registeredUsers));
+
+            toggleRegisterModal(false);
+            alert("Registration submitted! Your account is pending Manager approval before login.");
+            e.target.reset();
+        }
+
+        function renderPendingTable() {
+            const tbody = document.getElementById('pendingUsersTable');
+            const pending = registeredUsers.filter(u => u.status === 'PENDING');
+            document.getElementById('mgrPendingCount').innerText = `${pending.length} Requests`;
+
+            if (pending.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-gray-500">No pending approvals.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = pending.map((u, i) => `
+                <tr class="border-b border-gray-800">
+                    <td class="p-3 font-semibold text-white">${u.name}</td>
+                    <td class="p-3 text-cyan-400 font-mono">${u.empId}</td>
+                    <td class="p-3">${u.role}</td>
+                    <td class="p-3 text-right space-x-2">
+                        <button onclick="updateUserStatus('${u.empId}', 'APPROVED')" class="px-2.5 py-1 text-xs font-bold bg-emerald-950 text-emerald-400 border border-emerald-500/30 rounded-lg hover:bg-emerald-900">Approve</button>
+                        <button onclick="updateUserStatus('${u.empId}', 'REJECTED')" class="px-2.5 py-1 text-xs font-bold bg-red-950 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-900">Reject</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateUserStatus(empId, status) {
+            const user = registeredUsers.find(u => u.empId === empId);
+            if (user) {
+                user.status = status;
+                localStorage.setItem('portal_users', JSON.stringify(registeredUsers));
+                renderPendingTable();
+            }
+        }
+    </script>
+</body>
+</html>
