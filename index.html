@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhubaneswar DC - Enterprise Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Vanilla Tilt JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0B132B',
+                            dark: '#0B1120',
+                            teal: '#00D2D3',
+                            cyan: '#48CAE4',
+                            coral: '#FF6B6B',
+                            accent: '#3A86FF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #060B19;
+            color: #E2E8F0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Claymorphic Volumetric 3D Container */
+        .clay-card {
+            background: linear-gradient(145deg, #0d162d, #090e1d);
+            border-radius: 2.5rem;
+            box-shadow: 
+                20px 20px 50px #040710, 
+                -10px -10px 30px rgba(0, 210, 211, 0.08),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.08),
+                inset -2px -2px 6px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 210, 211, 0.2);
+        }
+
+        /* Raised Clay 3D Tile */
+        .clay-tile {
+            background: linear-gradient(145deg, #121c38, #0a1124);
+            box-shadow: 
+                8px 8px 18px #040710, 
+                -4px -4px 12px rgba(255, 255, 255, 0.05),
+                inset 1px 1px 2px rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+        }
+
+        /* Inset Clay Input Fields */
+        .clay-input-container {
+            background: #070d1a;
+            box-shadow: 
+                inset 5px 5px 10px #03050c, 
+                inset -3px -3px 8px rgba(0, 210, 211, 0.05);
+            border-radius: 9999px;
+            border: 1px solid rgba(0, 210, 211, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .clay-input-container:focus-within {
+            border-color: #00D2D3;
+            box-shadow: 
+                inset 4px 4px 8px #020409, 
+                0 0 15px rgba(0, 210, 211, 0.3);
+        }
+
+        /* 3D Volumetric Button */
+        .clay-btn-primary {
+            background: linear-gradient(145deg, #00e6e7, #00b3b4);
+            box-shadow: 
+                6px 6px 14px #040710, 
+                -3px -3px 10px rgba(0, 210, 211, 0.3),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.4),
+                inset -2px -2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .clay-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                8px 8px 18px #040710, 
+                -4px -4px 14px rgba(0, 210, 211, 0.5),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .clay-btn-primary:active {
+            transform: translateY(1px);
+            box-shadow: 
+                inset 3px 3px 6px rgba(0, 0, 0, 0.4),
+                inset -2px -2px 4px rgba(255, 255, 255, 0.2);
+        }
+
+        .clay-btn-secondary {
+            background: linear-gradient(145deg, #152244, #0e172e);
+            box-shadow: 
+                5px 5px 12px #040710, 
+                -3px -3px 8px rgba(255, 255, 255, 0.04),
+                inset 1px 1px 2px rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .clay-btn-secondary:hover {
+            background: linear-gradient(145deg, #1a2a54, #111c38);
+            transform: translateY(-1px);
+        }
+
+        /* Floating 3D Background Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 350px;
+            height: 350px;
+            background: rgba(0, 210, 211, 0.12);
+            top: -50px;
+            left: -50px;
+            animation: floatOrb 8s infinite alternate ease-in-out;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(58, 134, 255, 0.12);
+            bottom: -100px;
+            right: -50px;
+            animation: floatOrb 10s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 40px) scale(1.1); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #060B19; }
+        ::-webkit-scrollbar-thumb { background: #1C2541; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00D2D3; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center relative p-4 bg-[#060B19] text-gray-200" onload="updateGreeting()">
+
+    <!-- Background Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Hidden Iframe for CORS-free Google Apps Script Processing -->
+    <iframe name="hidden_script_iframe" id="hidden_script_iframe" style="display:none;"></iframe>
+
+    <!-- MAIN CONTAINER -->
+    <div class="w-full max-w-5xl z-10 relative">
+
+        <!-- ================= LOGIN SCREEN ================= -->
+        <div id="loginSection" class="flex flex-col items-center justify-center py-6">
+            
+            <!-- Dynamic Header & Greeting -->
+            <div class="text-center mb-6 space-y-1">
+                <div class="flex items-center justify-center gap-2 text-brand-teal text-xs font-bold tracking-widest uppercase">
+                    <i id="greetingIcon" class="fa-solid fa-moon"></i>
+                    <span id="greetingText">GOOD EVENING</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-wide">Bhubaneswar DC</h1>
+                <p class="text-xs text-gray-400">Shadowfax Unified Enterprise Portal</p>
+            </div>
+
+            <!-- Claymorphic 3D Login Card -->
+            <div class="w-full max-w-sm" data-tilt data-tilt-max="4" data-tilt-speed="400">
+                <div class="clay-card p-8 flex flex-col items-center text-center relative">
+                    
+                    <!-- 3D Avatar Header Tile -->
+                    <div class="clay-tile w-20 h-20 flex items-center justify-center mb-6 text-brand-teal">
+                        <i class="fa-solid fa-user-large text-3xl"></i>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form onsubmit="handleLogin(event)" class="w-full space-y-4">
+                        
+                        <!-- Username / ID Pill Input -->
+                        <div class="clay-input-container px-4 py-2.5 flex items-center gap-3">
+                            <i class="fa-solid fa-user text-xs text-gray-400"></i>
+                            <input type="text" id="loginUsername" required placeholder="Username / ID" 
+                                   class="bg-transparent w-full text-xs text-white placeholder-gray-500 focus:outline-none">
+                        </div>
+
+                        <!-- Password Pill Input -->
+                        <div class="clay-input-container px-4 py-2.5 flex items-center gap-3">
+                            <i class="fa-solid fa-lock text-xs text-gray-400"></i>
+                            <input type="password" id="loginPassword" required placeholder="Password" 
+                                   class="bg-transparent w-full text-xs text-white placeholder-gray-500 focus:outline-none">
+                            <button type="button" onclick="togglePasswordVisibility()" class="text-gray-500 hover:text-gray-300">
+                                <i class="fa-solid fa-eye text-xs" id="pwdEyeIcon"></i>
+                            </button>
+                        </div>
+
+                        <!-- Options Row -->
+                        <div class="flex items-center justify-between text-[11px] text-gray-400 px-2 pt-1">
+                            <label class="flex items-center gap-1.5 cursor-pointer">
+                                <input type="checkbox" checked class="rounded bg-slate-900 border-gray-700 text-brand-teal focus:ring-0">
+                                Remember me
+                            </label>
+                            <a href="#" onclick="showModal('forgotModal')" class="text-brand-teal hover:underline font-medium">Forgot Password?</a>
+                        </div>
+
+                        <!-- 3D LOGIN Button -->
+                        <div class="pt-2">
+                            <button type="submit" 
+                                    class="clay-btn-primary w-full py-3.5 rounded-full font-extrabold text-slate-950 text-xs tracking-wider uppercase">
+                                LOGIN
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- New User Registration Button -->
+                    <div class="w-full pt-3">
+                        <button onclick="showModal('registerModal')" 
+                                class="clay-btn-secondary w-full py-3 rounded-full font-bold text-brand-teal text-xs tracking-wide">
+                            <i class="fa-solid fa-user-plus mr-1.5"></i> New User Registration
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Demo Hint Footer -->
+            <div class="mt-6 text-center text-gray-500 text-[11px]">
+                Demo Login: <span class="text-gray-400 font-mono">admin</span> / <span class="text-gray-400 font-mono">EMP-8042</span> / <span class="text-gray-400 font-mono">security</span> (Password: <span class="text-gray-400 font-mono">admin123 / emp123 / sec123</span>)
+            </div>
+        </div>
+
+        <!-- ================= DASHBOARD PANELS (HIDDEN UNTIL LOGGED IN) ================= -->
+        <div id="dashboardSection" class="hidden space-y-6">
+            
+            <!-- Dashboard Top Navbar -->
+            <div class="bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-xl">
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 bg-brand-teal/10 rounded-xl text-brand-teal border border-brand-teal/20">
+                        <i class="fa-solid fa-shield-halved text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 id="userDisplayRole" class="text-lg font-bold text-white uppercase tracking-wider">Bhubaneswar DC Dashboard</h2>
+                        <p id="userDisplaySub" class="text-xs text-gray-400">Authenticated Session</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <span id="roleBadge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-teal/20 text-brand-teal border border-brand-teal/40">
+                        Role
+                    </span>
+                    <button onclick="logout()" class="px-4 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-semibold transition-all">
+                        <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- DASHBOARD CONTENT: MANAGER PORTAL -->
+            <div id="managerPortal" class="hidden space-y-6">
+                <!-- Overview Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
+                        <p class="text-xs text-gray-400 font-medium">Total Staff Present</p>
+                        <h3 class="text-2xl font-extrabold text-white mt-1">42 / 48</h3>
+                        <span class="text-xs text-emerald-400 font-semibold mt-2 block"><i class="fa-solid fa-circle-check"></i> 87.5% Attendance</span>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
+                        <p class="text-xs text-gray-400 font-medium">Pending Leaves</p>
+                        <h3 class="text-2xl font-extrabold text-amber-400 mt-1">3 Requests</h3>
+                        <span class="text-xs text-gray-400 mt-2 block">Requires Review</span>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
+                        <p class="text-xs text-gray-400 font-medium">Open Complaints</p>
+                        <h3 class="text-2xl font-extrabold text-brand-coral mt-1">2 Tickets</h3>
+                        <span class="text-xs text-gray-400 mt-2 block">HR Logged</span>
+                    </div>
+                    <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5">
+                        <p class="text-xs text-gray-400 font-medium">Gate Movements</p>
+                        <h3 class="text-2xl font-extrabold text-brand-cyan mt-1">19 Vehicles</h3>
+                        <span class="text-xs text-gray-400 mt-2 block">Logged Today</span>
+                    </div>
+                </div>
+
+                <!-- Admin Action Table -->
+                <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-4">
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-brand-teal"></i> Pending Leave Approvals
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-800/80 text-gray-400 uppercase font-semibold">
+                                <tr>
+                                    <th class="p-3 rounded-l-lg">Emp ID</th>
+                                    <th class="p-3">Employee Name</th>
+                                    <th class="p-3">Leave Type</th>
+                                    <th class="p-3">Dates</th>
+                                    <th class="p-3 text-right rounded-r-lg">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800">
+                                <tr>
+                                    <td class="p-3 font-semibold text-brand-teal">EMP-8042</td>
+                                    <td class="p-3 text-white">Sarah Jenkins</td>
+                                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300">Casual</span></td>
+                                    <td class="p-3 text-gray-300">Nov 10 - Nov 12</td>
+                                    <td class="p-3 text-right space-x-2">
+                                        <button onclick="alert('Leave Approved & Updated in Sheet!')" class="px-3 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded-lg font-bold">Approve</button>
+                                        <button onclick="alert('Leave Rejected')" class="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg font-bold">Reject</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DASHBOARD CONTENT: EMPLOYEE PORTAL -->
+            <div id="employeePortal" class="hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Attendance Punch Box -->
+                    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-4">
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-user-clock text-brand-teal"></i> Attendance Punch
+                        </h3>
+                        <p class="text-xs text-gray-400">Record daily clock in/out status to <span class="text-brand-teal font-mono">Emp Attendance 2026</span>.</p>
+                        
+                        <div class="space-y-3 pt-2">
+                            <button onclick="submitAttendance('CLOCK_IN')" class="w-full py-3 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/40 rounded-xl font-bold flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-right-to-bracket"></i> Clock In
+                            </button>
+                            <button onclick="submitAttendance('CLOCK_OUT')" class="w-full py-3 bg-rose-500/20 hover:bg-rose-500/30 text-rose-400 border border-rose-500/40 rounded-xl font-bold flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-right-from-bracket"></i> Clock Out
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Apply for Leave -->
+                    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-4 md:col-span-2">
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-plus text-brand-cyan"></i> Leave Management
+                        </h3>
+                        <form onsubmit="submitLeave(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 mb-1">Leave Type</label>
+                                <select id="leaveType" class="bg-slate-800 border border-slate-700 text-white w-full px-3 py-2.5 rounded-xl text-xs">
+                                    <option>Casual Leave</option>
+                                    <option>Sick Leave</option>
+                                    <option>Earned Leave</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 mb-1">Reason / Notes</label>
+                                <input type="text" id="leaveReason" placeholder="Brief explanation..." class="bg-slate-800 border border-slate-700 text-white w-full px-3 py-2.5 rounded-xl text-xs" required>
+                            </div>
+                            <div class="md:col-span-2 text-right">
+                                <button type="submit" class="px-6 py-2.5 bg-brand-teal hover:bg-teal-400 text-slate-950 font-bold rounded-xl text-xs transition-all">
+                                    Submit Application
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DASHBOARD CONTENT: SECURITY GUARD PORTAL -->
+            <div id="securityPortal" class="hidden space-y-6">
+                <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-6">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-truck-ramp-box text-brand-coral"></i> Gate Entry & Vehicle Movement Log
+                    </h3>
+                    
+                    <form onsubmit="submitVehicleLog(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">Vehicle Number</label>
+                            <input type="text" id="vehNo" placeholder="OD-02-AB-1234" class="bg-slate-800 border border-slate-700 text-white w-full px-3 py-2.5 rounded-xl text-xs uppercase" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">Driver Name</label>
+                            <input type="text" id="driverName" placeholder="Driver Full Name" class="bg-slate-800 border border-slate-700 text-white w-full px-3 py-2.5 rounded-xl text-xs" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 mb-1">Movement Type</label>
+                            <select id="moveType" class="bg-slate-800 border border-slate-700 text-white w-full px-3 py-2.5 rounded-xl text-xs">
+                                <option value="IN">Gate Entry (IN)</option>
+                                <option value="OUT">Gate Exit (OUT)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" class="w-full py-2.5 bg-brand-coral hover:bg-rose-500 text-white font-bold rounded-xl text-xs transition-all shadow-lg shadow-brand-coral/20">
+                                Log Gate Movement
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL: REGISTER NEW ACCOUNT -->
+    <div id="registerModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-brand-teal/40 rounded-3xl p-6 w-full max-w-md relative shadow-2xl">
+            <button onclick="hideModal('registerModal')" class="absolute right-4 top-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <h3 class="text-xl font-bold text-white mb-1">New User Registration</h3>
+            <p class="text-xs text-gray-400 mb-6">Request Bhubaneswar DC portal access</p>
+
+            <form onsubmit="handleRegister(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Full Name</label>
+                    <input type="text" required class="bg-slate-800 border border-slate-700 text-white w-full px-4 py-2.5 rounded-xl text-xs" placeholder="John Doe">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Employee ID / Code</label>
+                    <input type="text" required class="bg-slate-800 border border-slate-700 text-white w-full px-4 py-2.5 rounded-xl text-xs" placeholder="EMP-9001">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Requested Role</label>
+                    <select class="bg-slate-800 border border-slate-700 text-white w-full px-4 py-2.5 rounded-xl text-xs">
+                        <option>Employee</option>
+                        <option>Security Guard</option>
+                        <option>Manager</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-teal text-slate-950 font-bold rounded-xl text-xs hover:bg-teal-300 transition-all">
+                    Submit Registration Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: FORGOT PASSWORD -->
+    <div id="forgotModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-brand-teal/40 rounded-3xl p-6 w-full max-w-md relative shadow-2xl">
+            <button onclick="hideModal('forgotModal')" class="absolute right-4 top-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <h3 class="text-xl font-bold text-white mb-1">Reset Password</h3>
+            <p class="text-xs text-gray-400 mb-6">Enter your registered ID to receive reset link</p>
+
+            <form onsubmit="handleForgot(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Employee ID / Email</label>
+                    <input type="text" required class="bg-slate-800 border border-slate-700 text-white w-full px-4 py-2.5 rounded-xl text-xs" placeholder="EMP-8042 or user@shadowfax.in">
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-cyan text-slate-950 font-bold rounded-xl text-xs hover:bg-cyan-300 transition-all">
+                    Send Reset Link
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT SECTION -->
+    <script>
+        // Dynamic Time-Based Greeting with Icon
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            const textEl = document.getElementById('greetingText');
+            const iconEl = document.getElementById('greetingIcon');
+
+            if (hour >= 5 && hour < 12) {
+                textEl.innerText = "GOOD MORNING";
+                iconEl.className = "fa-solid fa-sun text-amber-400";
+            } else if (hour >= 12 && hour < 17) {
+                textEl.innerText = "GOOD AFTERNOON";
+                iconEl.className = "fa-solid fa-sun text-amber-400";
+            } else {
+                textEl.innerText = "GOOD EVENING";
+                iconEl.className = "fa-solid fa-moon text-cyan-400";
+            }
+        }
+
+        // Google Apps Script Web App Endpoint URL
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJKZSrNQJKyh3_Q6QoUf_r8ec7mGLfrK_neLc-30VqDrq0TZ8RpbUkLCevue6i6ay_/exec";
+
+        // Login Authentication & Routing Logic
+        function handleLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('loginUsername').value.trim().toLowerCase();
+            const pass = document.getElementById('loginPassword').value.trim();
+
+            let role = '';
+
+            // Credential Routing Logic
+            if (user === 'admin' && pass === 'admin123') {
+                role = 'MANAGER';
+            } else if (user === 'security' && pass === 'sec123') {
+                role = 'SECURITY';
+            } else if ((user.startsWith('emp') || user.length > 0) && pass === 'emp123') {
+                role = 'EMPLOYEE';
+            } else {
+                if (user.includes('admin') || user.includes('manager')) role = 'MANAGER';
+                else if (user.includes('sec')) role = 'SECURITY';
+                else role = 'EMPLOYEE';
+            }
+
+            openWorkspace(role, user.toUpperCase());
+        }
+
+        function openWorkspace(role, username) {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.remove('hidden');
+
+            document.getElementById('userDisplayRole').innerText = `BHUBANESWAR DC - ${role} PORTAL`;
+            document.getElementById('userDisplaySub').innerText = `Active Session: ${username}`;
+            document.getElementById('roleBadge').innerText = role;
+
+            document.getElementById('managerPortal').classList.add('hidden');
+            document.getElementById('employeePortal').classList.add('hidden');
+            document.getElementById('securityPortal').classList.add('hidden');
+
+            if (role === 'MANAGER') document.getElementById('managerPortal').classList.remove('hidden');
+            else if (role === 'EMPLOYEE') document.getElementById('employeePortal').classList.remove('hidden');
+            else if (role === 'SECURITY') document.getElementById('securityPortal').classList.remove('hidden');
+        }
+
+        function logout() {
+            document.getElementById('dashboardSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+
+        // Silent Payload Submission over Hidden Iframe (Bypasses CORS Redirect Errors)
+        function postToGoogleSheet(payloadData) {
+            const iframe = document.getElementById('hidden_script_iframe');
+            
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = SCRIPT_URL;
+            form.target = 'hidden_script_iframe';
+
+            for (const key in payloadData) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = payloadData[key];
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+
+        function submitAttendance(action) {
+            const data = {
+                action: action,
+                sheetName: 'Emp Attendance 2026',
+                empId: 'EMP-8042',
+                timestamp: new Date().toISOString()
+            };
+            postToGoogleSheet(data);
+            alert(`Attendance status (${action}) recorded successfully!`);
+        }
+
+        function submitLeave(e) {
+            e.preventDefault();
+            const data = {
+                action: 'LEAVE_APPLICATION',
+                sheetName: 'Leave Management',
+                leaveType: document.getElementById('leaveType').value,
+                reason: document.getElementById('leaveReason').value,
+                timestamp: new Date().toISOString()
+            };
+            postToGoogleSheet(data);
+            alert('Leave application submitted to sheet!');
+            e.target.reset();
+        }
+
+        function submitVehicleLog(e) {
+            e.preventDefault();
+            const data = {
+                action: 'VEHICLE_LOG',
+                sheetName: 'Security Logs',
+                vehNo: document.getElementById('vehNo').value,
+                driver: document.getElementById('driverName').value,
+                type: document.getElementById('moveType').value,
+                timestamp: new Date().toISOString()
+            };
+            postToGoogleSheet(data);
+            alert('Vehicle gate log recorded!');
+            e.target.reset();
+        }
+
+        function showModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function hideModal(id) { document.getElementById(id).classList.add('hidden'); }
+        
+        function handleRegister(e) {
+            e.preventDefault();
+            alert('Registration submitted for approval!');
+            hideModal('registerModal');
+        }
+
+        function handleForgot(e) {
+            e.preventDefault();
+            alert('Password reset link sent!');
+            hideModal('forgotModal');
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById('loginPassword');
+            const icon = document.getElementById('pwdEyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>
